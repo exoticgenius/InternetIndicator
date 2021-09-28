@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,6 +13,9 @@ namespace InternetIndicator
 {
     public class Tray
     {
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        extern static bool DestroyIcon(IntPtr handle);
+
         NotifyIcon NotifyIcon;
         Core core;
         public Tray(Core core)
@@ -23,11 +28,23 @@ namespace InternetIndicator
         }
         public void SetIcon(Bitmap bmp)
         {
-            Icon old = NotifyIcon.Icon;
-            NotifyIcon.Icon = Icon.FromHandle(bmp.GetHicon());
-            if (old is not null)
-                old.Dispose();
-            bmp.Dispose();
+            try
+            {
+                IntPtr ptr = bmp.GetHicon();
+                Icon old = NotifyIcon.Icon;
+
+                Icon newi = Icon.FromHandle(ptr);
+                NotifyIcon.Icon = newi;
+                newi.Dispose();
+                bmp.Dispose();
+                DestroyIcon(ptr);
+                DestroyIcon(newi.Handle);
+                if (old is not null) DestroyIcon(old.Handle);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("failed: " + e.Message);
+            }
         }
         public void RefreshIcon(List<Pinger> ps)
         {
