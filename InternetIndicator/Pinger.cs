@@ -13,26 +13,32 @@ namespace InternetIndicator
         private int timeout;
         private string host;
         private CustomIPStatus status;
-        private Ping ping;
-        private byte[] buff;
+        private readonly Ping ping;
+        private readonly byte[] buff;
+
         public string Host
         {
             get { lock (this) return host; }
             set { lock (this) host = value; }
         }
+
         public int TimeOut
         {
             get { lock (this) return timeout; }
             set { lock (this) timeout = value; }
         }
+
         public CustomIPStatus Status
         {
             get { lock (this) return status; }
             set { lock (this) status = value; }
         }
+
         public bool IsFree { get; private set; } = true;
         public List<byte> Columns { get; } = new List<byte>();
+
         public event OnSuccess OnSuccess;
+
         public Pinger(string host, int timeOut, params byte[] column)
         {
             Host = host;
@@ -42,10 +48,14 @@ namespace InternetIndicator
             ping = new Ping();
             buff = new byte[8];
         }
+
         public async void Ping()
         {
-            if (!IsFree) return;
+            if (!IsFree)
+                return;
+
             IsFree = false;
+
             try
             {
                 Debug.WriteLine(TimeOut + " pinging");

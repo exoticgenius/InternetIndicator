@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace InternetIndicator
@@ -16,48 +12,54 @@ namespace InternetIndicator
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
 
-        NotifyIcon NotifyIcon;
-        Core core;
+        private readonly NotifyIcon NotifyIcon;
+        private readonly Core core;
+
         public Tray(Core core)
         {
             this.core = core;
-            NotifyIcon = new NotifyIcon();
+            NotifyIcon = new();
             NotifyIcon.MouseClick += Icon_MouseClick;
             SetIcon(MakeSrc());
             NotifyIcon.Visible = true;
         }
+
         public void SetIcon(Bitmap bmp)
         {
             try
             {
                 IntPtr ptr = bmp.GetHicon();
-                Icon old = NotifyIcon.Icon;
+                var old = NotifyIcon.Icon;
 
-                Icon newi = Icon.FromHandle(ptr);
+                var newi = Icon.FromHandle(ptr);
                 NotifyIcon.Icon = newi;
                 newi.Dispose();
                 bmp.Dispose();
                 DestroyIcon(ptr);
                 DestroyIcon(newi.Handle);
-                if (old is not null) DestroyIcon(old.Handle);
+
+                if (old is not null)
+                    DestroyIcon(old.Handle);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("failed: " + e.Message);
             }
         }
+
         public void RefreshIcon(List<Pinger> ps)
         {
-            Bitmap src = MakeSrc();
+            var src = MakeSrc();
             for (int i = 0; i < ps.Count; i++)
             {
-                if (ps[i].Status == CustomIPStatus.Success || ps[i].Status == CustomIPStatus.None)
+                if (ps[i].Status is CustomIPStatus.Success or CustomIPStatus.None)
                 {
-                    ps[i].Columns.ForEach(x => SetColumn(x));
+                    ps[i].Columns.ForEach(x => SetColumn(x, src));
                 }
             }
             SetIcon(src);
-            void SetColumn(int x)
+
+            static void SetColumn(int x, Bitmap src)
             {
                 for (int i = 2; i < 14; i++)
                 {
@@ -65,6 +67,7 @@ namespace InternetIndicator
                 }
             }
         }
+
         private void Icon_MouseClick(object sender, MouseEventArgs e)
         {
             switch (e.Button)
@@ -77,9 +80,10 @@ namespace InternetIndicator
                     break;
             }
         }
+
         private static Bitmap MakeSrc()
         {
-            Bitmap src = new Bitmap(16, 16);
+            Bitmap src = new(16, 16);
             for (int i = 2; i < 14; i++)
             {
                 for (int j = 2; j < 14; j++)

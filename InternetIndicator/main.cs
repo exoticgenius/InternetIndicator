@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace InternetIndicator
 {
     public partial class main : Form
     {
-        Core core;
+        private readonly Core core;
+
         public main(Core core)
         {
             InitializeComponent();
@@ -21,6 +15,7 @@ namespace InternetIndicator
             this.core = core;
             txtHost.Text = core.pingers[0].Host;
         }
+
         [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
@@ -32,7 +27,7 @@ namespace InternetIndicator
             if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
-                SendMessage(base.Handle, 161, 2, 0);
+                SendMessage(Handle, 161, 2, 0);
             }
         }
 
@@ -43,7 +38,8 @@ namespace InternetIndicator
 
         private void btnSet_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtHost.Text)) core.SetHost(txtHost.Text);
+            if (!string.IsNullOrWhiteSpace(txtHost.Text))
+                core.SetHost(txtHost.Text);
         }
     }
 }

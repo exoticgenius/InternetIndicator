@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace InternetIndicator
 {
     public class Core
     {
-        Task observerTask;
-        Task pingerTask;
-        public List<Pinger> pingers = new List<Pinger>();
-        Tray tray;
+        private readonly Task observerTask;
+        private readonly Task pingerTask;
+        public List<Pinger> pingers = new();
+        private readonly Tray tray;
+
         public Core()
         {
-            tray = new Tray(this);
-            observerTask = observer();
-            pingerTask = pinger();
+            tray = new(this);
+            observerTask = Observer();
+            pingerTask = Pinger();
         }
 
-        private async Task observer()
+        private async Task Observer()
         {
             while (true)
             {
@@ -38,11 +34,11 @@ namespace InternetIndicator
                 finally
                 {
                     await Task.Delay(150);
-
                 }
             }
         }
-        private async Task pinger()
+
+        private async Task Pinger()
         {
             List<Pinger> ps;
             int pingFirst = 10;
@@ -52,20 +48,23 @@ namespace InternetIndicator
                 {
                     ps = pingers.ToList();
                 }
+
                 try
                 {
-                    if (ps.Count == 0) continue;
+                    if (ps.Count == 0)
+                        continue;
+
                     bool called = false;
                     for (int i = 0; i < ps.Count; i++)
                     {
-                        if (ps[i].Status == CustomIPStatus.Success || ps[i].Status == CustomIPStatus.None)
+                        if (ps[i].Status is CustomIPStatus.Success or CustomIPStatus.None)
                         {
                             called = true;
                             ps[i].Status = CustomIPStatus.None;
                             ps[i].Ping();
                             if (i > 0)
                             {
-                                pingFirst+= 10-i;
+                                pingFirst += 10 - i;
                                 if (pingFirst <= 5)
                                 {
                                     pingFirst = 10;
@@ -78,14 +77,16 @@ namespace InternetIndicator
                             break;
                         }
                     }
+
                     if (!called)
                     {
                         pingFirst = 0;
-                        ps[ps.Count - 1].Status = CustomIPStatus.None;
-                        ps[ps.Count - 1].Ping();
-                        ps[ps.Count - 2].Ping();
+                        ps[^1].Status = CustomIPStatus.None;
+                        ps[^1].Ping();
+                        ps[^2].Ping();
                     }
                 }
+
                 finally
                 {
                     ps.Clear();
@@ -97,10 +98,12 @@ namespace InternetIndicator
         internal void SetHost(string text)
         {
             List<Pinger> ps;
+
             lock (pingers)
             {
                 ps = pingers.ToList();
             }
+
             ps.ForEach(x => x.Host = text);
             ps.Clear();
         }
