@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31512.422
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EGO.NetIndicator", "EGO.NetIndicator\EGO.NetIndicator.csproj", "{24D6844E-D492-49E5-92CD-9F11C4CDF5CC}"
 EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "EGO.NetIndicator.Installer", "EGO.NetIndicator.Installer\EGO.NetIndicator.Installer.aiproj", "{73DD9217-CE7F-468E-B605-4ED019B4379E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -18,6 +20,10 @@ Global
 		{24D6844E-D492-49E5-92CD-9F11C4CDF5CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24D6844E-D492-49E5-92CD-9F11C4CDF5CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24D6844E-D492-49E5-92CD-9F11C4CDF5CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73DD9217-CE7F-468E-B605-4ED019B4379E}.All|Any CPU.ActiveCfg = DefaultBuild
+		{73DD9217-CE7F-468E-B605-4ED019B4379E}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{73DD9217-CE7F-468E-B605-4ED019B4379E}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{73DD9217-CE7F-468E-B605-4ED019B4379E}.Release|Any CPU.Build.0 = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
