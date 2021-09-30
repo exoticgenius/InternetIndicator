@@ -1,5 +1,5 @@
 ﻿
-namespace InternetIndicator
+namespace EGO.NetIndicator
 {
     partial class main
     {
@@ -46,7 +46,7 @@ namespace InternetIndicator
             this.btnClose.Location = new System.Drawing.Point(349, 0);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(25, 69);
-            this.btnClose.TabIndex = 0;
+            this.btnClose.TabIndex = 3;
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -63,7 +63,8 @@ namespace InternetIndicator
             this.btnHead.Location = new System.Drawing.Point(0, 0);
             this.btnHead.Name = "btnHead";
             this.btnHead.Size = new System.Drawing.Size(349, 25);
-            this.btnHead.TabIndex = 1;
+            this.btnHead.TabIndex = 100;
+            this.btnHead.TabStop = false;
             this.btnHead.Text = "net indicator";
             this.btnHead.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnHead.UseCompatibleTextRendering = true;
@@ -78,7 +79,7 @@ namespace InternetIndicator
             this.txtHost.Location = new System.Drawing.Point(49, 36);
             this.txtHost.Name = "txtHost";
             this.txtHost.Size = new System.Drawing.Size(201, 23);
-            this.txtHost.TabIndex = 2;
+            this.txtHost.TabIndex = 1;
             // 
             // lblTitle
             // 
@@ -87,7 +88,7 @@ namespace InternetIndicator
             this.lblTitle.Location = new System.Drawing.Point(11, 38);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(31, 21);
-            this.lblTitle.TabIndex = 3;
+            this.lblTitle.TabIndex = 101;
             this.lblTitle.Text = "host:";
             this.lblTitle.UseCompatibleTextRendering = true;
             // 
@@ -101,7 +102,7 @@ namespace InternetIndicator
             this.btnSet.Location = new System.Drawing.Point(260, 36);
             this.btnSet.Name = "btnSet";
             this.btnSet.Size = new System.Drawing.Size(78, 23);
-            this.btnSet.TabIndex = 4;
+            this.btnSet.TabIndex = 2;
             this.btnSet.Text = "set";
             this.btnSet.UseCompatibleTextRendering = true;
             this.btnSet.UseVisualStyleBackColor = false;
@@ -123,7 +124,7 @@ namespace InternetIndicator
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "main";
-            this.Text = "Form1";
+            this.Text = "Net Indicator";
             this.ResumeLayout(false);
             this.PerformLayout();
 

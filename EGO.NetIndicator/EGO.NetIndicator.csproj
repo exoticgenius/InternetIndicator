@@ -3,15 +3,16 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>D:\Libraries\Desktop\New folder\icons8_radar.ico</ApplicationIcon>
-    <StartupObject />
     <MinimumPlatformVersion>7.0</MinimumPlatformVersion>
-    <SignAssembly>False</SignAssembly>
+    <ApplicationIcon>D:\Libraries\Desktop\New folder\icons8_radar.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
+    <Compile Update="main.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>
